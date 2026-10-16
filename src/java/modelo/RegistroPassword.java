@@ -1,14 +1,15 @@
 package modelo;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author afric
  */
-public class RegistroPassword {
+public class RegistroPassword implements Serializable {
     private String clave;
     private double nivelFortaleza;
-    private Date fechaRegistro;
+    private LocalDateTime fechaRegistro;
     
     public String getClave() {
         return clave;
@@ -22,23 +23,41 @@ public class RegistroPassword {
     void setNivelFortaleza(double nivelFortaleza) {
         this.nivelFortaleza = nivelFortaleza;
     }
-    public Date getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
     
-    public RegistroPassword(String clave, Date fechaRegistro) {
+    public RegistroPassword(String clave) {
         this.clave = clave;
+        this.nivelFortaleza = EvaluadorPassword.nivelFortaleza(EvaluadorPassword.validarContraseña(clave));
+        this.fechaRegistro = LocalDateTime.now();
+    }
+    
+    /* public RegistroPassword(String clave, double nivelFortaleza, LocalDateTime fechaRegistro) {
+        this.clave = clave;
+        this.nivelFortaleza = nivelFortaleza;
         this.fechaRegistro = fechaRegistro;
     }
     
-    /* private double calcularFortalezaContraseña() {
-        double nota = 100;
-        
-        return nota/100;
+    public RegistroPassword(String clave, double nivelFortaleza) {
+        this.clave = clave;
+        this.nivelFortaleza = nivelFortaleza;
+        this.fechaRegistro = LocalDateTime.now();
+    }
+    
+    public RegistroPassword(String clave, LocalDateTime ldt) {
+        this.clave = clave;
+        this.nivelFortaleza = EvaluadorPassword.nivelFortaleza(EvaluadorPassword.validarContraseña(clave));
+        this.fechaRegistro = ldt;
     } */
+
+    @Override
+    public String toString() {
+        return "RegistroPassword{" + "clave=" + clave + ", nivelFortaleza=" + nivelFortaleza + ", fechaRegistro=" + fechaRegistro + '}';
+    }
     
 }
 

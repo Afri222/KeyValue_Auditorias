@@ -20,20 +20,18 @@
         <form id="formulario" action="./evaluaPassword" method="post">
             <table>
                 <tr>
-                    <th>Nombre de usuario:</th>
                     <th>Contraseña</th>
                     <th></th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td>
-                    <td><input type="password">
+                    <td><input type="password" name="password">
                         <%-- <form id="solContraseña" action="./vaultHistorico" method="post">
                             <input type="submit" value="Recomendar contraseña">
                         </form> --%>
                     </td>
                     <td>
-                        <form id="solContraseña" action="./" method="post">
-                            <input type="submit" value="Recomendar contraseña">
+                        <form id="solContraseña" action="./evaluaPassword" method="post">
+                            <input type="submit" name="btnPedirPw" value="Recomendar contraseña">
                         </form>
                     </td>
                 </tr>
@@ -49,15 +47,38 @@
             <%
                 Cookie[] misCookies = request.getCookies();
                 Cookie cookie;
-                
-                
-                /* if (misCookies != null)
-                    cookie = misCookies.getCookie("ultimaAuditoría"); */
+                String ultPwAn;
+                if (misCookies != null) {
+                    // cookie = misCookies.getCookie("ultimaAuditoría");
+                    cookie = null;
+                    for (Cookie c : misCookies) {
+                        if ("ultimaAuditoria".equalsIgnoreCase(c.getName())) {
+                            cookie = c;
+                            break;
+                        }
+                    }
+                    if (cookie != null) {
+                        ultPwAn = cookie.getValue();
+                    } else {
+                        ultPwAn = "-";
+                    }
+                } else
+                    ultPwAn = "-";
             %>
-            <p>Última contraseña analizada: <%= misCookies. %></p>
+            <%
+                HttpSession sesion = request.getSession(false);
+                String name;
+                
+                if (sesion == null || (name = (String) sesion.getAttribute("nombre")) == null) {
+                    name = "usuario/a";
+                }
+            %>
+            <p>¡Hola <%= name%>!</p>
+            <p>La última auditoría fue : <%= ultPwAn%></p>
+
         </form>
 
-        <br>
+        <hr>
 
         <form id="consultaVault" action="./consultaVault" method="post">
             <input type="submit" value="Ver histórico">

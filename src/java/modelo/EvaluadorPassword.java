@@ -5,60 +5,65 @@ package modelo;
  * @author afric
  */
 public class EvaluadorPassword {
-    private RegistroPassword rpw;
-
-    public EvaluadorPassword(RegistroPassword rpw) {
-        if (rpw != null)
-            this.rpw = rpw;
-    }
     
-    public double analizarContraseña(String pw) {
-        double pts = 0;
-        boolean[] v = validarContraseña(pw);
-        
-        if (pw == null || pw.isEmpty())
-            return -1;
-        if (pw.length() >= 10)
-            pts ++;
-        if (v[0] && v[1] && v[2] && v[3])
-            pts = 10;
-        return pts;
-    }
+    final static int CRITERIOS = 5; // Long, mayus, minus, simb, nums.
     
-    public boolean[] validarContraseña(String cad){
-        final int criterios = 4;
-        boolean[] v = new boolean[criterios];
+    public EvaluadorPassword() {    }
+    
+    public static boolean[] validarContraseña(String cad){
+        boolean[] v = new boolean[CRITERIOS];
         
-        if (cad == null || cad.isEmpty()) {
-            boolean[] b = v;
-            
-            for (int i=0; i<b.length; i++) {
-                b[i] = false;
-            }
-            return b;
+        if (cad == null || cad.isEmpty() || cad.length() < 10) {
+            v[0] = false;
+            return v;
         }
-        
-        for (int i=0; i<criterios; i++) {
-            v[i] = false;
-        }
-        for(int i=0; i<v.length; i++){
-            if (!v[0] && Character.isDigit(cad.charAt(i)))
-                v[0] = true;
-            if (!v[1] && Character.isUpperCase(cad.charAt(i))) 
+        for(int i=1; i<cad.length(); i++){
+            if (!v[1] && Character.isDigit(cad.charAt(i)))
                 v[1] = true;
-            if (!v[2] && Character.isLowerCase(cad.charAt(i)))
+            if (!v[2] && Character.isUpperCase(cad.charAt(i))) 
                 v[2] = true;
-            if (!v[3] && cad.matches(".*[^a-zA-Z0-9].*"))
+            if (!v[3] && Character.isLowerCase(cad.charAt(i)))
                 v[3] = true;
+            if (!v[4] && cad.matches(".*[^a-zA-Z0-9].*"))
+                v[4] = true;
         }
-        
         return v;
     }
     
-    public String ofrecerContraseña() {
+    public static String diagnostico(boolean[] v) {
+        double c = 0;
+        String d = "Contraseña: ";
+        
+        for (int i=0; i<v.length; i++) {
+            if (v[i])
+                c++;
+        }
+        
+        d += (c/CRITERIOS * 100) + "% segura.";
+        // System.out.println("Cont: " + c + "; calc: " + (c/CRITERIOS * 100));
+        return d;
+    }
+    
+    public static double nivelFortaleza(boolean[] v) {
+        double c = 0;
+        
+        for (int i=0; i<v.length; i++) {
+            if (v[i])
+                c++;
+        }
+        
+        return c/CRITERIOS * 100;
+    }
+    
+    public static String ofrecerContraseña() {
         String posiblepw = "";
         
-        
+        for(int i=0; i<10; i++){
+            double j = Math.random() * 86; // 127 total -> 32 primeros NO aptos
+            j += 33;
+            posiblepw += (char) j;
+            // Comprobar q cumpe tds los requisitos
+        }
         
         return posiblepw;
     }
