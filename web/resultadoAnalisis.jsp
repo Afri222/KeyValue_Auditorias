@@ -35,9 +35,11 @@
         <hr>
         <h3>Recuerde el tiempo de rotura...</h3>
         <%-- <img src="<%= request.getContextPath()%>/img/tiempoRoturaPassword.jpg" alt="Tabla tiempos rotura contraseña"/> --%>
-        <img src="<%= request.getContextPath() %>/src/java/img/tiempoRoturaPassword.jpg" alt="Tabla tiempos rotura contraseña"/>
+        <img src="<%=request.getContextPath()%>/img/tiempoRoturaPassword.jpg" alt="Tabla tiempos rotura contraseña"/>
+        <%-- <img src="../src/java/img/tiempoRoturaPassword.jpg" alt=""/> --%>
+        
         <hr>
-        <img src="../src/java/img/tiempoRoturaPassword.jpg" alt=""/>
+        
         <form action="guardaVault" method="post">
             <input type="submit" value="Guardar en Vault" name="GuardarEnVault">
         </form>

@@ -49,7 +49,6 @@
                 Cookie cookie;
                 String ultPwAn;
                 if (misCookies != null) {
-                    // cookie = misCookies.getCookie("ultimaAuditoría");
                     cookie = null;
                     for (Cookie c : misCookies) {
                         if ("ultimaAuditoria".equalsIgnoreCase(c.getName())) {
@@ -75,7 +74,6 @@
             %>
             <p>¡Hola <%= name%>!</p>
             <p>La última auditoría fue : <%= ultPwAn%></p>
-
         </form>
 
         <hr>

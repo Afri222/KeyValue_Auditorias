@@ -20,8 +20,11 @@ public class ConsultaVaultServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         ServletContext sc = this.getServletContext();
-        VaultDAO vdao = new VaultDAO(sc.getRealPath("/WEB-INF/vault.txt"));
-        ArrayList<RegistroPassword> regsLeidos = vdao.leerFichero();
+        VaultDAO vdao = new VaultDAO(sc);
+        String ruta = sc.getRealPath("/WEB-INF/vaul.txt");
+        VaultDAO vdao2 = new VaultDAO(sc, ruta);
+        // ArrayList<RegistroPassword> regsLeidos = vdao.leerFichero();
+        ArrayList<RegistroPassword> regsLeidos = vdao2.leerFichero();
         
         request.setAttribute("registrosLeidos", regsLeidos);
         request.getRequestDispatcher("/vaultHistorico.jsp").forward(request, response);

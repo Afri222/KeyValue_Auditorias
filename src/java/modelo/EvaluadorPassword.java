@@ -13,9 +13,11 @@ public class EvaluadorPassword {
     public static boolean[] validarContraseña(String cad){
         boolean[] v = new boolean[CRITERIOS];
         
-        if (cad == null || cad.isEmpty() || cad.length() < 10) {
-            v[0] = false;
+        if (cad != null && !cad.isEmpty() && cad.length() >= 10) {
+            v[0] = true;
+        } else {
             return v;
+            
         }
         for(int i=1; i<cad.length(); i++){
             if (!v[1] && Character.isDigit(cad.charAt(i)))
@@ -26,6 +28,8 @@ public class EvaluadorPassword {
                 v[3] = true;
             if (!v[4] && cad.matches(".*[^a-zA-Z0-9].*"))
                 v[4] = true;
+            if (v[0] && v[1] && v[2] && v[3] && v[4])
+                break;
         }
         return v;
     }
@@ -33,10 +37,11 @@ public class EvaluadorPassword {
     public static String diagnostico(boolean[] v) {
         double c = 0;
         String d = "Contraseña: ";
-        
+        // System.out.println();
         for (int i=0; i<v.length; i++) {
             if (v[i])
                 c++;
+            System.out.println("V[" + i + "]: " + v[i]);
         }
         
         d += (c/CRITERIOS * 100) + "% segura.";
